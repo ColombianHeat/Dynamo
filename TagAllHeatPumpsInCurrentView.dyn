@@ -1,0 +1,1019 @@
+{
+  "Uuid": "476b3cd1-7db5-4c3d-94b7-d829e393680f",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "TagAllHeatPumpsInCurrentView",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 337,
+      "SelectedString": "OST_MechanicalEquipment",
+      "NodeType": "ExtensionNode",
+      "Id": "31dd288e899f480fa1243fe742dbc003",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "c60498effa84463f81c3662cb657357d",
+          "Name": "Category",
+          "Description": "The selected Category.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All built-in categories."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "Id": "743e69967767402fb969f60343962e2a",
+      "Inputs": [
+        {
+          "Id": "8be917d6e9bd4f33a371c87a14727c14",
+          "Name": "Category",
+          "Description": "The Category",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3e3a815a6c0948ea9de36da5df09c97e",
+          "Name": "Elements",
+          "Description": "An element type.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Get all elements of the specified category from the model."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nequipment = IN[0]\r\nfilter = IN[1]\r\n\r\noutput = []\r\n\r\nfor item in enumerate(equipment):\r\n    if filter in str(item[1]):\r\n        output.append(item[1])\r\n    \r\n\r\n# Assign your output to the OUT variable.\r\nOUT = output",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "e5406094f18f47e0b49dfee4227cc89e",
+      "Inputs": [
+        {
+          "Id": "10ab5eb2b6ab40c491588d6e594ae7d8",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6d8da91ed0ed4fc3832e7b50e51e32de",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e0ebadb662fd4e3c9446fdea2e25008f",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"50PCH\";",
+      "Id": "fa0e90ea209e49428f978972fc891856",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f04da1276b3940d0bb184a076391fb34",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "archilab.Revit.Elements.Elements.IsVisible@Revit.Elements.Element,Revit.Elements.Views.View",
+      "Id": "bf2e1f619f0e46d1a2323ff0abcb08ed",
+      "Inputs": [
+        {
+          "Id": "cf878257cca34d9e963cc54b407b7e2a",
+          "Name": "element",
+          "Description": "Element to check.\n\nElement",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3af4df27668c4bf78781f44b5250534f",
+          "Name": "view",
+          "Description": "View to check visibility in.\n\nView",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "bbfd3536920d4ad19ceab530e18916c9",
+          "Name": "bool",
+          "Description": "True if Element is visible in View, otherwise false.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Checks whether an Element is visible in given View.\n\nElements.IsVisible (element: Element, view: View): bool"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Application.Document.ActiveView",
+      "Id": "dbcb8a6fe4f2401383c08dc90e4f105a",
+      "Inputs": [
+        {
+          "Id": "4b2c4b72753f44a585f73d4c1a94a7a2",
+          "Name": "document",
+          "Description": "Revit.Application.Document",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3ff8a9cd145441f096c6892f0253e3c8",
+          "Name": "View",
+          "Description": "View",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the active view for the document\n\nDocument.ActiveView: View"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nheatPumpList = IN[0]\r\nisVisibleInView = IN[1]\r\n\r\nindices = []\r\nfor bool in enumerate(isVisibleInView):\r\n\tif bool[1]:\r\n\t   indices.append(bool[0])\r\n\r\noutput = []\r\nfor index in indices: \r\n    output.append(heatPumpList[index])\r\n# Place your code below this line\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = output",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "cffd99240468459e813275f97ba334f3",
+      "Inputs": [
+        {
+          "Id": "709c791a38fa4bb7ae47b71bc372cf65",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e2dd4d7b495b40b59262accc12a53ce8",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "de41af1890a943d3b87d79ae635fd832",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "ee3e4c3a-599a-4dba-af1f-57f58b08ce3d",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "10f65d53cb6346da8c266eb717a1a9be",
+      "Inputs": [
+        {
+          "Id": "1209aac21c9c447da03dc7f1c282410d",
+          "Name": "view",
+          "Description": "View to tag in.\n\nvar[]..[]\nDefault value : Revit.Application.Document.Current.ActiveView",
+          "UsingDefaultValue": true,
+          "Level": 1,
+          "UseLevels": true,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8d885f0f4eed43f4b79395343648e600",
+          "Name": "element",
+          "Description": "Element to tag\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "07597e6f5c054209afd4db57632e2532",
+          "Name": "TagLocation",
+          "Description": "Point\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ecbfc46691404c9e9dd086a54e7e8d41",
+          "Name": "TagType",
+          "Description": "Family Type to use\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "501862d5128543cebc130fb6f84ef035",
+          "Name": "horizontal",
+          "Description": "Optional : Place tag horizontal, defaults to true\n\nbool\nDefault value : true",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "836aac98ca204373b411ee1dfbd9406a",
+          "Name": "addLeader",
+          "Description": "Optional : Add a leader, defaults to false\n\nbool\nDefault value : false",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8253151d4d65431db6f266b7f3d0277a",
+          "Name": "LinkInstance",
+          "Description": "var\nDefault value : null",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "2882f5aaa7db4f7288d1679447d2ad94",
+          "Name": "RunIt",
+          "Description": "bool\nDefault value : false",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e55e7e0bba7a46fd88edddcd6b9df3e5",
+          "Name": "Tag",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Longest",
+      "Description": "Works only in Revit 2018 and later.\r\nCreates a tag at a given location, of given type and in a supplied view. \r\nThe node also works with Linked Elements (except space and area), Multi Category tag and Material Tag.\r\nBased on an archilab node"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Element.GetLocation",
+      "Id": "e3203c820bcf40efa16913756f94daa5",
+      "Inputs": [
+        {
+          "Id": "eddcea3f81824693800916413e350db5",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0843b32a08454cb0942c6f659d01ab54",
+          "Name": "Geometry",
+          "Description": "Location Geometry",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get an existing element's location\n\nElement.GetLocation ( ): Geometry"
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
+      "SelectedIndex": 696,
+      "SelectedString": "Mechanical Equipment Tag:Heat Pump Symbol",
+      "NodeType": "ExtensionNode",
+      "Id": "79406ed2fb2d4da2b77f8ba37f3e9354",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "cad348e20b23446095721ad2c130619b",
+          "Name": "Family Type",
+          "Description": "The selected Family Type",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All family types available in the document."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "083088d291cb42fa844a5f03ddf6d342",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2a86340d47d04ea0afa2bf2578e103eb",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Logic.If, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "6c72976edff24a7a85865b703045b546",
+      "Inputs": [
+        {
+          "Id": "8ae424a2f7394070a714bcb2993eb1a4",
+          "Name": "test",
+          "Description": "Boolean test",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "63ef53a5f8434f209067ce26ee5a1137",
+          "Name": "true",
+          "Description": "Returned if test is true",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d4e680d951bc42f59a6c63087c7ccb90",
+          "Name": "false",
+          "Description": "Returned if test is false",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "2cf5dca0e0bf43bd8354af8904fb32c8",
+          "Name": "result",
+          "Description": "Result block produced",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Conditional statement"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Application.Document.Current",
+      "Id": "b350bc8d62574084998c1dfe23865034",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "98889707e9b84569b6b5d0be8ece2104",
+          "Name": "Document",
+          "Description": "Document",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the current document\n\nDocument.Current: Document"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "d784a763ed064c608d8cea4f4dc7dfc2",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b59999ee433b4b25926d31382c0180d9",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "",
+      "Id": "53c3edbc6d414be2b1f5cebe8cbb0650",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "",
+      "Id": "b714051963d64ed38e2fdd1c6faed44e",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "",
+      "Id": "a092fb32d4ea406d8aa3f1cba0bc3ca0",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "c60498effa84463f81c3662cb657357d",
+      "End": "8be917d6e9bd4f33a371c87a14727c14",
+      "Id": "a44cc020bc1c4d3187f7f9c638fa02a2"
+    },
+    {
+      "Start": "3e3a815a6c0948ea9de36da5df09c97e",
+      "End": "10ab5eb2b6ab40c491588d6e594ae7d8",
+      "Id": "fc40559325b84d7f97068df50fffa568"
+    },
+    {
+      "Start": "e0ebadb662fd4e3c9446fdea2e25008f",
+      "End": "cf878257cca34d9e963cc54b407b7e2a",
+      "Id": "ab54404dbb5b4ebf823f00077a63e153"
+    },
+    {
+      "Start": "e0ebadb662fd4e3c9446fdea2e25008f",
+      "End": "709c791a38fa4bb7ae47b71bc372cf65",
+      "Id": "e98ecb69f5764c998beb263d29c190d2"
+    },
+    {
+      "Start": "f04da1276b3940d0bb184a076391fb34",
+      "End": "6d8da91ed0ed4fc3832e7b50e51e32de",
+      "Id": "005114fdc37a4299b99e874a120d5318"
+    },
+    {
+      "Start": "bbfd3536920d4ad19ceab530e18916c9",
+      "End": "e2dd4d7b495b40b59262accc12a53ce8",
+      "Id": "9ffba83d9fc1499f9942061f51d2fba6"
+    },
+    {
+      "Start": "3ff8a9cd145441f096c6892f0253e3c8",
+      "End": "3af4df27668c4bf78781f44b5250534f",
+      "Id": "be7afe4f12db47068aa6f7cb2c6b6be1"
+    },
+    {
+      "Start": "3ff8a9cd145441f096c6892f0253e3c8",
+      "End": "1209aac21c9c447da03dc7f1c282410d",
+      "Id": "20470eb5326d48208f4146b5b7a84f3f"
+    },
+    {
+      "Start": "de41af1890a943d3b87d79ae635fd832",
+      "End": "8d885f0f4eed43f4b79395343648e600",
+      "Id": "ef40010939de4240ad7a862fac3ad6ae"
+    },
+    {
+      "Start": "de41af1890a943d3b87d79ae635fd832",
+      "End": "eddcea3f81824693800916413e350db5",
+      "Id": "ac68b5908507432895e378c672e9a6c6"
+    },
+    {
+      "Start": "0843b32a08454cb0942c6f659d01ab54",
+      "End": "07597e6f5c054209afd4db57632e2532",
+      "Id": "56e09e2368be4aad9ee10b4bc8fa6be0"
+    },
+    {
+      "Start": "cad348e20b23446095721ad2c130619b",
+      "End": "ecbfc46691404c9e9dd086a54e7e8d41",
+      "Id": "b962221dc7304056855e4ee5c43065d3"
+    },
+    {
+      "Start": "2a86340d47d04ea0afa2bf2578e103eb",
+      "End": "2882f5aaa7db4f7288d1679447d2ad94",
+      "Id": "0f1a3e4a06644af2a9883a3f8d489495"
+    },
+    {
+      "Start": "2cf5dca0e0bf43bd8354af8904fb32c8",
+      "End": "4b2c4b72753f44a585f73d4c1a94a7a2",
+      "Id": "2b0df044697a49258390c5add2a70590"
+    },
+    {
+      "Start": "98889707e9b84569b6b5d0be8ece2104",
+      "End": "d4e680d951bc42f59a6c63087c7ccb90",
+      "Id": "13b6a426b4674616accb5d51c071a8e4"
+    },
+    {
+      "Start": "98889707e9b84569b6b5d0be8ece2104",
+      "End": "63ef53a5f8434f209067ce26ee5a1137",
+      "Id": "52960f01a810458e8e244dde7c802a95"
+    },
+    {
+      "Start": "b59999ee433b4b25926d31382c0180d9",
+      "End": "8ae424a2f7394070a714bcb2993eb1a4",
+      "Id": "7ac6dd8aa4844dc795644bae3181ef8a"
+    }
+  ],
+  "Dependencies": [
+    "ee3e4c3a-599a-4dba-af1f-57f58b08ce3d"
+  ],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "archi-lab.net",
+      "Version": "2022.212.3222",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "bf2e1f619f0e46d1a2323ff0abcb08ed"
+      ]
+    },
+    {
+      "Name": "Genius Loci",
+      "Version": "2022.6.16",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "10f65d53cb6346da8c266eb717a1a9be"
+      ]
+    }
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.10.1.3976",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Categories",
+        "Id": "31dd288e899f480fa1243fe742dbc003",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -72.094295709393236,
+        "Y": 421.79290537254434
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "All Elements of Category",
+        "Id": "743e69967767402fb969f60343962e2a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 515.92679910657989,
+        "Y": 310.25682393906351
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "All Heat Pumps",
+        "Id": "e5406094f18f47e0b49dfee4227cc89e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 732.0,
+        "Y": 342.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Filter for This",
+        "Id": "fa0e90ea209e49428f978972fc891856",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 9.9057042906067636,
+        "Y": 515.19627500839977
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Elements.IsVisible",
+        "Id": "bf2e1f619f0e46d1a2323ff0abcb08ed",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 931.5,
+        "Y": 449.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Document.ActiveView",
+        "Id": "dbcb8a6fe4f2401383c08dc90e4f105a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 676.99917604782979,
+        "Y": 663.18273241891859
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Heat Pumps Visible in Current View",
+        "Id": "cffd99240468459e813275f97ba334f3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1161.1264364343026,
+        "Y": 381.49770956757277
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Create Tag",
+        "Id": "10f65d53cb6346da8c266eb717a1a9be",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1942.8320292793248,
+        "Y": 517.7476629650015
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Element.GetLocation",
+        "Id": "e3203c820bcf40efa16913756f94daa5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1641.8467681124491,
+        "Y": 675.16250672882165
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Family Types",
+        "Id": "79406ed2fb2d4da2b77f8ba37f3e9354",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -176.09429570939324,
+        "Y": 899.72449959719711
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Enable Tagging?",
+        "Id": "083088d291cb42fa844a5f03ddf6d342",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1737.0521086004198,
+        "Y": 767.58321433590982
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "If",
+        "Id": "6c72976edff24a7a85865b703045b546",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 513.91399082435942,
+        "Y": 647.47077448687594
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Document.Current",
+        "Id": "b350bc8d62574084998c1dfe23865034",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 287.20059307462662,
+        "Y": 742.71206191894453
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Refresh",
+        "Id": "d784a763ed064c608d8cea4f4dc7dfc2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 14.905704290606764,
+        "Y": 715.86269507087786
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "53c3edbc6d414be2b1f5cebe8cbb0650",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 210.61744104282252,
+        "Y": -35.6928009072887
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "b714051963d64ed38e2fdd1c6faed44e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 410.66862312227749,
+        "Y": -32.1061326430771
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "a092fb32d4ea406d8aa3f1cba0bc3ca0",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 19.460839900504425,
+        "Y": -36.290721999041693
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "0311cc55d79946238a145f77537ce092",
+        "Title": "TOGGLE THIS BETWEEN RUNS!",
+        "Nodes": [
+          "d784a763ed064c608d8cea4f4dc7dfc2"
+        ],
+        "Left": 4.9057042906067636,
+        "Top": 619.86269507087786,
+        "Width": 155.0,
+        "Height": 164.0,
+        "FontSize": 24.0,
+        "InitialTop": 715.86269507087786,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 86.0,
+        "Background": "#FF48B9FF"
+      },
+      {
+        "Id": "3e0eed503be64a5cacadc7893249a1ba",
+        "Title": "Place Tags on Selected Objects",
+        "Nodes": [
+          "10f65d53cb6346da8c266eb717a1a9be",
+          "e3203c820bcf40efa16913756f94daa5",
+          "083088d291cb42fa844a5f03ddf6d342"
+        ],
+        "Left": 1631.8467681124491,
+        "Top": 464.7476629650015,
+        "Width": 534.985261166876,
+        "Height": 370.83555137090832,
+        "FontSize": 36.0,
+        "InitialTop": 517.7476629650015,
+        "InitialHeight": 394.83555137090832,
+        "TextblockHeight": 43.0,
+        "Background": "#FFFF7BAC"
+      },
+      {
+        "Id": "4683265a78324a97ba7792854064743b",
+        "Title": "Gets the Current Active View in Revit",
+        "Nodes": [
+          "dbcb8a6fe4f2401383c08dc90e4f105a",
+          "6c72976edff24a7a85865b703045b546",
+          "b350bc8d62574084998c1dfe23865034"
+        ],
+        "Left": 277.20059307462662,
+        "Top": 594.47077448687594,
+        "Width": 618.79858297320311,
+        "Height": 241.24128743206859,
+        "FontSize": 36.0,
+        "InitialTop": 647.47077448687594,
+        "InitialHeight": 240.24128743206859,
+        "TextblockHeight": 43.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "905933ba51a84e8e87e25207d1af88f6",
+        "Title": "Selects all Heat Pumps in the Model",
+        "Nodes": [
+          "743e69967767402fb969f60343962e2a",
+          "e5406094f18f47e0b49dfee4227cc89e"
+        ],
+        "Left": 505.92679910657989,
+        "Top": 214.25682393906351,
+        "Width": 389.07320089342011,
+        "Height": 257.74317606093649,
+        "FontSize": 36.0,
+        "InitialTop": 310.25682393906351,
+        "InitialHeight": 176.74317606093649,
+        "TextblockHeight": 86.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "0ce6353f8fef40fbb8c6a581445db64c",
+        "Title": "Filters for Heat Pumps in the Current Active View",
+        "Nodes": [
+          "bf2e1f619f0e46d1a2323ff0abcb08ed",
+          "cffd99240468459e813275f97ba334f3"
+        ],
+        "Left": 921.5,
+        "Top": 285.49770956757277,
+        "Width": 527.6264364343026,
+        "Height": 282.50229043242723,
+        "FontSize": 36.0,
+        "InitialTop": 381.49770956757277,
+        "InitialHeight": 212.50229043242723,
+        "TextblockHeight": 86.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "01d3be7f024849c286a842534c6b7eb4",
+        "Title": "Select Object Category and Apply Filter",
+        "Nodes": [
+          "31dd288e899f480fa1243fe742dbc003",
+          "fa0e90ea209e49428f978972fc891856"
+        ],
+        "Left": -82.094295709393236,
+        "Top": 281.79290537254434,
+        "Width": 242.0,
+        "Height": 326.40336963585543,
+        "FontSize": 36.0,
+        "InitialTop": 421.79290537254434,
+        "InitialHeight": 238.40336963585543,
+        "TextblockHeight": 130.0,
+        "Background": "#FF48B9FF"
+      },
+      {
+        "Id": "ae5189f9eeb74b78a7096ea44a60f60b",
+        "Title": "What Kind of Tag Are You Placing?",
+        "Nodes": [
+          "79406ed2fb2d4da2b77f8ba37f3e9354"
+        ],
+        "Left": -186.09429570939324,
+        "Top": 803.72449959719711,
+        "Width": 393.0,
+        "Height": 189.0,
+        "FontSize": 36.0,
+        "InitialTop": 899.72449959719711,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 86.0,
+        "Background": "#FF48B9FF"
+      },
+      {
+        "Id": "1404047a5b1c4da8ae7632391b53dc0a",
+        "Title": "Executing actions, manipulating the Revit model",
+        "Nodes": [
+          "b714051963d64ed38e2fdd1c6faed44e"
+        ],
+        "Left": 400.66862312227749,
+        "Top": -258.1061326430771,
+        "Width": 219.48333333333335,
+        "Height": 319.0,
+        "FontSize": 36.0,
+        "InitialTop": -32.1061326430771,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 216.0,
+        "Background": "#FFFF7BAC"
+      },
+      {
+        "Id": "8cdc80ec0fdf464789e79db49bc3cdea",
+        "Title": "Filtering,  gathering data, cleaning up data",
+        "Nodes": [
+          "53c3edbc6d414be2b1f5cebe8cbb0650"
+        ],
+        "Left": 200.61744104282252,
+        "Top": -261.6928009072887,
+        "Width": 185.0,
+        "Height": 319.0,
+        "FontSize": 36.0,
+        "InitialTop": -35.6928009072887,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 216.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "11a92af3273f4a188eba05040228dd40",
+        "Title": "User inputs and tools",
+        "Nodes": [
+          "a092fb32d4ea406d8aa3f1cba0bc3ca0"
+        ],
+        "Left": 9.4608399005044248,
+        "Top": -132.29072199904169,
+        "Width": 185.0,
+        "Height": 189.0,
+        "FontSize": 36.0,
+        "InitialTop": -36.290721999041693,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 86.0,
+        "Background": "#FF48B9FF"
+      },
+      {
+        "Id": "eda67353103b4af1b3d800bab31139ff",
+        "Title": "Colour Legend",
+        "Nodes": [],
+        "Left": 255.00829841608925,
+        "Top": 67.184787104112559,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "a0ce960be84846ea96b19eecf650c568",
+        "Title": "Run once, then toggle this. Run again on a new view, toggle again, etc. \r\n\r\nChanging this refreshes the current active view. If you don't toggle this boolean, then the active view does not change. ",
+        "Nodes": [],
+        "Left": -307.31840246082083,
+        "Top": 646.70236325791211,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      }
+    ],
+    "X": 54.5991907468744,
+    "Y": -23.44255391084107,
+    "Zoom": 0.728239595080595
+  }
+}

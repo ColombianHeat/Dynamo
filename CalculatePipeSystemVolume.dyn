@@ -1,0 +1,1308 @@
+{
+  "Uuid": "476b3cd1-7db5-4c3d-94b7-d829e393680f",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "CalculatePipeSystemVolume",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 410,
+      "SelectedString": "OST_PipeCurves",
+      "NodeType": "ExtensionNode",
+      "Id": "a690ce2f488b42c28dfb4352d8dd6456",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "88714d001b014e0985dec80697634bf5",
+          "Name": "Category",
+          "Description": "The selected Category.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All built-in categories."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "Id": "a203413debe3471ab7ef86f3b6b59cdd",
+      "Inputs": [
+        {
+          "Id": "15034393bd234dcf898ede287acdf13a",
+          "Name": "Category",
+          "Description": "The Category",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "1edc1e5f7e184076ab7227d3fbbacb1e",
+          "Name": "Elements",
+          "Description": "An element type.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Get all elements of the specified category from the model."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Element.GetParameterValueByName@string",
+      "Id": "1c92b7788ffb4a56a16a9de7dca25235",
+      "Inputs": [
+        {
+          "Id": "e8b2c11f3a24484383096eee9bdf49f6",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "027555cef1174229bb8db0023e9771c3",
+          "Name": "parameterName",
+          "Description": "The name of the parameter whose value you want to obtain.\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "2fa53020609940b2a0bb4604a7a5e512",
+          "Name": "var[]..[]",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the value of one of the element's parameters.\n\nElement.GetParameterValueByName (parameterName: string): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"System Name\";",
+      "Id": "f576115f6c0246119c69906b70fa10d5",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f1090f39fed6401eba032472caf318f4",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\npipeSystemNames = IN[0]\r\nfilter = IN[1]\r\nallPipeElements = IN[2]\r\n\r\nmatchingIndices = []\r\nfor system in enumerate(pipeSystemNames): \r\n    if filter.upper() in system[1].upper(): \r\n        matchingIndices.append(system[0])\r\n        \r\noutput = []\r\nfor index in matchingIndices: \r\n    output.append(allPipeElements[index])\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = output",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "7ea0108f683f4ff9b29db83f0854e5ea",
+      "Inputs": [
+        {
+          "Id": "e85283215c7c40d69a973d58f0dba232",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "94c146bbea0f49e6ba4fb57b68c75ae8",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e0aa1aab44714c73b7f015067a0f3449",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "1186d40df6ee42fe8fe602420f2b364f",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "9890a08c-425b-43d4-81a6-22cee99c7d1e",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "b23ac84f82584556870d5f5d1fc3290b",
+      "Inputs": [
+        {
+          "Id": "14a85a8533df4f69bd35e85d25eedf32",
+          "Name": "element",
+          "Description": "MEP element\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fe2a583ade784ca7a88ea85503421e84",
+          "Name": "System Abbreviation ",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "518172d2e0f34ae1ac684d7dd2b76a5c",
+          "Name": "Width",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "041b994b4df44118a9c5c7b2f2a00b0c",
+          "Name": "Height",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "da5b89d8ed1346ef99e38994f564e468",
+          "Name": "Diameter",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Retrieves the width, height or diameter of the MEP system elements (pipe, duct, cable tray, accessory...)."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"hot water heating return sm\";",
+      "Id": "d6ddfeb9ffd04af5b5d33df5a1b6f8fd",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2c9a2fce90b04986af1f26db92a0f48c",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Element.GetParameterValueByName@string",
+      "Id": "7da081c6d70c49cdaff05673d09da3f3",
+      "Inputs": [
+        {
+          "Id": "923d287280d14ecc9df2b6c8c1fc7a80",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6fc0deb0d5144c2eb420a7a21f803484",
+          "Name": "parameterName",
+          "Description": "The name of the parameter whose value you want to obtain.\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "4f6b8c2e8969406e9a1289be309035a4",
+          "Name": "var[]..[]",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the value of one of the element's parameters.\n\nElement.GetParameterValueByName (parameterName: string): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"System Name\";",
+      "Id": "9d9326004ddd4c12ac24fa3521e9235d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "98b40b0f4a364a4aaebc0c81b53c49b2",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nimport math\r\nimport numpy as np\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\npipeDiameters = IN[0]\r\n\r\npipeDiametersArray = np.array(pipeDiameters)\r\n\r\n\r\npipeAreas = math.pi * ((pipeDiametersArray / 2) ** 2)\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = pipeAreas",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "dce0bc824c584ff29a456b923110c93d",
+      "Inputs": [
+        {
+          "Id": "330bc4862b164d3da7a07f5a1a280967",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "68d483807a66419c84309b69d290b519",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nimport numpy as np\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nlengths = IN[0]\r\nareas = IN[1]\r\n\r\nlengthsArray = np.array(lengths)\r\nareasArray = np.array(areas)\r\n\r\nsystemVolume = np.dot(lengthsArray, areasArray)\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = systemVolume",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "5d437d8bef184be0b68c1dacb24d93ae",
+      "Inputs": [
+        {
+          "Id": "cb1d66e63c734f80a4c0569fe1d3ac3d",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "32e04763afa74e28b3363e08a617f0ac",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c18cd9bff9ec4216a16bce92ccbd0585",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Rhythm.Revit.Elements.Elements.GetParameterValueByNameTypeOrInstance@Revit.Elements.Element,string",
+      "Id": "7bd056b8aec2439197e6e1f24887b5a0",
+      "Inputs": [
+        {
+          "Id": "bc12e15bd9a84a9a82ece550aad5c629",
+          "Name": "element",
+          "Description": "The element to get parameter from.\n\nElement",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "785c9c6e088b48a5bdf19a9a41e47934",
+          "Name": "parameterName",
+          "Description": "The parameter name.\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e536989a99714792bc6d109eeed59e37",
+          "Name": "value",
+          "Description": "The parameter value.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "This node will get the parameter as instance or type.\n\nElements.GetParameterValueByNameTypeOrInstance (element: Element, parameterName: string): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"Length\";",
+      "Id": "4bdda2089a544993b04e8f38859b80c8",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "bf264c6bdf2c4f3092cc6e5ae23006bc",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nvolumeIn = IN[0]\r\nisImperial = IN[1]\r\n\r\nif isImperial:\r\n    volumeGallons = (volumeIn / (12 ** 3)) * 7.481\r\nelse: \r\n    volumeGallons = (volumeIn / (1000 ** 3)) * 264.172\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = volumeGallons",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "3c2d8dcc141843a0943c254219075557",
+      "Inputs": [
+        {
+          "Id": "ef698bf818bf4ed2a69e9a315ef5ece6",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "cdc0f385cb094fc6b617549dee44f30a",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e166cc53f1d447d381447b7084c4ca8f",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "",
+      "Id": "1e89f64e721b484d8e605cbad7ad6938",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "",
+      "Id": "480788bd4e6249febd72e659fa331362",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "",
+      "Id": "a6b254d622c74319890db205f5e20f82",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "b9874dcea15443b292579ce59de8bb92",
+      "Inputs": [
+        {
+          "Id": "de3789e8359f41a8b5b1500e72a44668",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "332cb143f9944b929ddc67771632f053",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "66abaffa682d4a798cba3742eb367e23",
+      "Inputs": [
+        {
+          "Id": "4d5a379998dc45688fd77ba1f2c70abd",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "504f354d280e4aa39f1f291551b3f034",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "c0b6fcec84d04307ad0c21bdca694e09",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2240294a6cd846bfbdc85eefe5b8dd99",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nimport numpy as np\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nnominalDiameters = np.array(IN[0])\r\nisImperial = IN[1]\r\nisSS = IN[2]\r\n\r\n# Spreadsheet Columns: \r\n# Nominal diameter (\"),   Nominal diameter (mm),   Sch. 40 SS ID (\"),   Type L Cu ID (\"),   Sch. 40 SS ID (mm),   Type L Cu ID (mm)\r\nlookupTable = np.genfromtxt('S:\\REVIT\\AlanDynamoScripts\\Spreadsheets\\SteelCopperPipe_InnerDiameter.csv', delimiter = ',', skip_header = 1)\r\nnp.set_printoptions(precision = 3, suppress = True)\r\nprint(lookupTable)\r\nprint(np.shape(lookupTable))\r\n\r\ndef metricNominalToInner_SS(nominal):\r\n    innerDiameter = 0\r\n    for row in lookupTable: \r\n        if (nominal >= (row[1] - 2.1)) and (nominal <= row[1] + 2.1):\r\n            innerDiameter = row[4]\r\n            break\r\n        else: \r\n            innerDiameter = nominal\r\n    return innerDiameter\r\n\r\ndef imperialNominalToInner_SS(nominal):\r\n    innerDiameter = 0\r\n    for row in lookupTable: \r\n        if (nominal >= (row[0] - 0.1)) and (nominal <= row[0] + 0.1):\r\n            innerDiameter = row[2]\r\n            break\r\n        else: \r\n            innerDiameter = nominal\r\n    return innerDiameter\r\n\r\ndef metricNominalToInner_CU(nominal):\r\n    innerDiameter = 0\r\n    for row in lookupTable: \r\n        if (nominal >= (row[1] - 2.1)) and (nominal <= row[1] + 2.1):\r\n            innerDiameter = row[5]\r\n            break\r\n        else: \r\n            innerDiameter = nominal\r\n    return innerDiameter\r\n\r\ndef imperialNominalToInner_CU(nominal):\r\n    innerDiameter = 0\r\n    for row in lookupTable: \r\n        if (nominal >= (row[0] - 0.1)) and (nominal <= row[0] + 0.1):\r\n            innerDiameter = row[3]\r\n            break\r\n        else: \r\n            innerDiameter = nominal\r\n    return innerDiameter\r\n\r\ninnerArray = []\r\n\r\nif isImperial:\r\n    if isSS:\r\n        for pipe in nominalDiameters:\r\n            ID = imperialNominalToInner_SS(pipe)\r\n            innerArray.append(ID)\r\n    if not isSS:\r\n        for pipe in nominalDiameters:\r\n            ID = imperialNominalToInner_CU(pipe)\r\n            innerArray.append(ID)\r\n\r\n\r\nif not isImperial:\r\n    if isSS:\r\n        for pipe in nominalDiameters:\r\n            ID = metricNominalToInner_SS(pipe)\r\n            innerArray.append(ID)\r\n    if not isSS:\r\n        for pipe in nominalDiameters:\r\n            ID = metricNominalToInner_CU(pipe)\r\n            innerArray.append(ID)\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = innerArray",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "aebd2c6d640e4304a16348a332957cf2",
+      "Inputs": [
+        {
+          "Id": "72d823d900cb4c5c84c81bc07bc1a89f",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6d4731fc602b4db9a581f2df39722926",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1dad85385bb943bdb7dd871dab6708c5",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "dc0ff7e2b048414fa7966087475e4695",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "948d868cd24e467e9402a59e79c860d4",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b995b473b96f445e8f374e2d82480dd3",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "88714d001b014e0985dec80697634bf5",
+      "End": "15034393bd234dcf898ede287acdf13a",
+      "Id": "e85d33d7b6ce4650a73ae7295796b9e0"
+    },
+    {
+      "Start": "1edc1e5f7e184076ab7227d3fbbacb1e",
+      "End": "e8b2c11f3a24484383096eee9bdf49f6",
+      "Id": "26e2d1f38597481095161cb50255b8ce"
+    },
+    {
+      "Start": "1edc1e5f7e184076ab7227d3fbbacb1e",
+      "End": "e0aa1aab44714c73b7f015067a0f3449",
+      "Id": "6fa9408e81ee47d9a90da083e0375df6"
+    },
+    {
+      "Start": "2fa53020609940b2a0bb4604a7a5e512",
+      "End": "e85283215c7c40d69a973d58f0dba232",
+      "Id": "e6ee9b98ecda44baac64bfb5b198ac79"
+    },
+    {
+      "Start": "f1090f39fed6401eba032472caf318f4",
+      "End": "027555cef1174229bb8db0023e9771c3",
+      "Id": "dcda95a543e2420f8c7b3e80518303d6"
+    },
+    {
+      "Start": "1186d40df6ee42fe8fe602420f2b364f",
+      "End": "923d287280d14ecc9df2b6c8c1fc7a80",
+      "Id": "bd08082dcd364c5d94326e7a45affae3"
+    },
+    {
+      "Start": "1186d40df6ee42fe8fe602420f2b364f",
+      "End": "14a85a8533df4f69bd35e85d25eedf32",
+      "Id": "7a8dd4c433504c2b8f1585c3dff254af"
+    },
+    {
+      "Start": "1186d40df6ee42fe8fe602420f2b364f",
+      "End": "bc12e15bd9a84a9a82ece550aad5c629",
+      "Id": "3ac7bb4329dd41679abc154016fd0785"
+    },
+    {
+      "Start": "da5b89d8ed1346ef99e38994f564e468",
+      "End": "72d823d900cb4c5c84c81bc07bc1a89f",
+      "Id": "f29d73aac50645e3b77ba758e1be0061"
+    },
+    {
+      "Start": "2c9a2fce90b04986af1f26db92a0f48c",
+      "End": "94c146bbea0f49e6ba4fb57b68c75ae8",
+      "Id": "5303339e8baa4da6b93ab7ea6808b8a4"
+    },
+    {
+      "Start": "4f6b8c2e8969406e9a1289be309035a4",
+      "End": "4d5a379998dc45688fd77ba1f2c70abd",
+      "Id": "ce98d488fbe14169b275f826e1f21105"
+    },
+    {
+      "Start": "98b40b0f4a364a4aaebc0c81b53c49b2",
+      "End": "6fc0deb0d5144c2eb420a7a21f803484",
+      "Id": "d05e88239c864e41b17ef28937b31c68"
+    },
+    {
+      "Start": "68d483807a66419c84309b69d290b519",
+      "End": "32e04763afa74e28b3363e08a617f0ac",
+      "Id": "9510e38b236f440c9e08de8a509a182d"
+    },
+    {
+      "Start": "c18cd9bff9ec4216a16bce92ccbd0585",
+      "End": "ef698bf818bf4ed2a69e9a315ef5ece6",
+      "Id": "72017a4c5c6b4efebe5cef91d36b37f5"
+    },
+    {
+      "Start": "e536989a99714792bc6d109eeed59e37",
+      "End": "cb1d66e63c734f80a4c0569fe1d3ac3d",
+      "Id": "da5a75ec671e4474a2ece0a1beb4240c"
+    },
+    {
+      "Start": "bf264c6bdf2c4f3092cc6e5ae23006bc",
+      "End": "785c9c6e088b48a5bdf19a9a41e47934",
+      "Id": "e2d52cd0e92746de85794c6926f1e5c2"
+    },
+    {
+      "Start": "e166cc53f1d447d381447b7084c4ca8f",
+      "End": "de3789e8359f41a8b5b1500e72a44668",
+      "Id": "5f66118e140e4d6b863c37e3b6331125"
+    },
+    {
+      "Start": "2240294a6cd846bfbdc85eefe5b8dd99",
+      "End": "cdc0f385cb094fc6b617549dee44f30a",
+      "Id": "41aa78ff04e64c21ae2c0516746e6ec4"
+    },
+    {
+      "Start": "2240294a6cd846bfbdc85eefe5b8dd99",
+      "End": "6d4731fc602b4db9a581f2df39722926",
+      "Id": "155d3c151e6d459b8cdbea2d92756389"
+    },
+    {
+      "Start": "dc0ff7e2b048414fa7966087475e4695",
+      "End": "330bc4862b164d3da7a07f5a1a280967",
+      "Id": "537e175189714332bed6e14f2201fb7c"
+    },
+    {
+      "Start": "b995b473b96f445e8f374e2d82480dd3",
+      "End": "1dad85385bb943bdb7dd871dab6708c5",
+      "Id": "08e9b1e445e44b838c104b60cd93d33e"
+    }
+  ],
+  "Dependencies": [
+    "9890a08c-425b-43d4-81a6-22cee99c7d1e"
+  ],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "Genius Loci",
+      "Version": "2022.6.16",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "b23ac84f82584556870d5f5d1fc3290b"
+      ]
+    },
+    {
+      "Name": "Rhythm",
+      "Version": "2022.7.2",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "7bd056b8aec2439197e6e1f24887b5a0"
+      ]
+    }
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.10.1.3976",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Categories",
+        "Id": "a690ce2f488b42c28dfb4352d8dd6456",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 648.78499412920951,
+        "Y": 602.51195738930153
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "All Elements of Category",
+        "Id": "a203413debe3471ab7ef86f3b6b59cdd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 834.78499412920951,
+        "Y": 601.51195738930153
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Element.GetParameterValueByName",
+        "Id": "1c92b7788ffb4a56a16a9de7dca25235",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 886.6103926284577,
+        "Y": 334.777503133944
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "f576115f6c0246119c69906b70fa10d5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 654.99672849815681,
+        "Y": 365.86705580782223
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Pipes in Specified System",
+        "Id": "7ea0108f683f4ff9b29db83f0854e5ea",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1197.0,
+        "Y": 380.03496889791825
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "MEP System Size",
+        "Id": "b23ac84f82584556870d5f5d1fc3290b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1494.01406393451,
+        "Y": 479.133186786988
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "System Filter",
+        "Id": "d6ddfeb9ffd04af5b5d33df5a1b6f8fd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 226.7846252774674,
+        "Y": 548.52475221359077
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Element.GetParameterValueByName",
+        "Id": "7da081c6d70c49cdaff05673d09da3f3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1025.1706249823126,
+        "Y": 869.88639859168393
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "9d9326004ddd4c12ac24fa3521e9235d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 836.11366948430509,
+        "Y": 933.1739683996318
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Pipe Areas",
+        "Id": "dce0bc824c584ff29a456b923110c93d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2071.4617258303765,
+        "Y": 429.20376530023884
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "System Volume",
+        "Id": "5d437d8bef184be0b68c1dacb24d93ae",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2267.4438186467146,
+        "Y": 334.66366837995724
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Pipe Lengths",
+        "Id": "7bd056b8aec2439197e6e1f24887b5a0",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1732.20124774412,
+        "Y": 294.895517966025
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "4bdda2089a544993b04e8f38859b80c8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1577.40070067476,
+        "Y": 377.630860814074
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Volume (USG)",
+        "Id": "3c2d8dcc141843a0943c254219075557",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2453.0630527672652,
+        "Y": 412.69872374589482
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "1e89f64e721b484d8e605cbad7ad6938",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 252.38322408324586,
+        "Y": -81.909223074331237
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "480788bd4e6249febd72e659fa331362",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 443.53982522556385,
+        "Y": -81.311301982578186
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "a6b254d622c74319890db205f5e20f82",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 643.59100730501928,
+        "Y": -77.72463371836659
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "b9874dcea15443b292579ce59de8bb92",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 2612.6902939886304,
+        "Y": 412.997688854644
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "66abaffa682d4a798cba3742eb367e23",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1302.6195194513073,
+        "Y": 869.126947208454
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Imperial or metric??",
+        "Id": "c0b6fcec84d04307ad0c21bdca694e09",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1647.77848167702,
+        "Y": 866.90419411801247
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Nominal to Inner Diameter",
+        "Id": "aebd2c6d640e4304a16348a332957cf2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1831.4423690054218,
+        "Y": 558.35440658646155
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "SS or Cu pipes?",
+        "Id": "948d868cd24e467e9402a59e79c860d4",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1637.0550554415286,
+        "Y": 1236.827441639258
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "a308b4089ff24d159a828a1b40841d87",
+        "Title": "INPUT FILTER FOR PIPE SYSTEM",
+        "Nodes": [
+          "d6ddfeb9ffd04af5b5d33df5a1b6f8fd"
+        ],
+        "Left": 216.7846252774674,
+        "Top": 452.52475221359077,
+        "Width": 318.0,
+        "Height": 189.0,
+        "FontSize": 36.0,
+        "InitialTop": 548.52475221359077,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 86.0,
+        "Background": "#FF48B9FF"
+      },
+      {
+        "Id": "3d47ef667c354b77956f42fc802ba02e",
+        "Title": "Create list of pipes in a system matching the filter",
+        "Nodes": [
+          "a690ce2f488b42c28dfb4352d8dd6456",
+          "a203413debe3471ab7ef86f3b6b59cdd",
+          "1c92b7788ffb4a56a16a9de7dca25235",
+          "f576115f6c0246119c69906b70fa10d5",
+          "7ea0108f683f4ff9b29db83f0854e5ea"
+        ],
+        "Left": 638.78499412920951,
+        "Top": 238.77750313394398,
+        "Width": 783.21500587079049,
+        "Height": 456.73445425535755,
+        "FontSize": 36.0,
+        "InitialTop": 334.777503133944,
+        "InitialHeight": 412.73445425535755,
+        "TextblockHeight": 86.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "538f5e19c6b84456b0e9635eeefaeb1a",
+        "Title": "Use this to verify you've filtered systems appropriately",
+        "Nodes": [
+          "7da081c6d70c49cdaff05673d09da3f3",
+          "9d9326004ddd4c12ac24fa3521e9235d",
+          "66abaffa682d4a798cba3742eb367e23"
+        ],
+        "Left": 826.11366948430509,
+        "Top": 773.126947208454,
+        "Width": 762.50584996700218,
+        "Height": 395.00000000000011,
+        "FontSize": 36.0,
+        "InitialTop": 869.126947208454,
+        "InitialHeight": 209.04702119117781,
+        "TextblockHeight": 86.0,
+        "Background": "#FF48B9FF"
+      },
+      {
+        "Id": "a0bdc58138424e7c9a26cb196a1fca7e",
+        "Title": "Gather pipe lengths and areas",
+        "Nodes": [
+          "b23ac84f82584556870d5f5d1fc3290b",
+          "dce0bc824c584ff29a456b923110c93d",
+          "7bd056b8aec2439197e6e1f24887b5a0",
+          "4bdda2089a544993b04e8f38859b80c8",
+          "aebd2c6d640e4304a16348a332957cf2"
+        ],
+        "Left": 1484.01406393451,
+        "Top": 241.895517966025,
+        "Width": 721.44766189586653,
+        "Height": 472.45888862043654,
+        "FontSize": 36.0,
+        "InitialTop": 294.895517966025,
+        "InitialHeight": 408.45888862043654,
+        "TextblockHeight": 43.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "3a8fa94d94324337858f39b144c9d2c3",
+        "Title": "Calculate volume and convert to US Gallons from inches/mm",
+        "Nodes": [
+          "5d437d8bef184be0b68c1dacb24d93ae",
+          "3c2d8dcc141843a0943c254219075557",
+          "b9874dcea15443b292579ce59de8bb92"
+        ],
+        "Left": 2257.4438186467146,
+        "Top": 238.66366837995724,
+        "Width": 526.24647534191581,
+        "Height": 304.03505536593752,
+        "FontSize": 36.0,
+        "InitialTop": 334.66366837995724,
+        "InitialHeight": 223.33402047468678,
+        "TextblockHeight": 86.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "5dd3b71c6ca5406ca7fe82612b7c1342",
+        "Title": "User inputs and tools",
+        "Nodes": [
+          "1e89f64e721b484d8e605cbad7ad6938"
+        ],
+        "Left": 242.38322408324586,
+        "Top": -177.90922307433124,
+        "Width": 185.0,
+        "Height": 189.0,
+        "FontSize": 36.0,
+        "InitialTop": -81.909223074331237,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 86.0,
+        "Background": "#FF48B9FF"
+      },
+      {
+        "Id": "07f6cec07dec4337b3bf92a007875e50",
+        "Title": "Filtering,  gathering data, cleaning up data",
+        "Nodes": [
+          "480788bd4e6249febd72e659fa331362"
+        ],
+        "Left": 433.53982522556385,
+        "Top": -307.31130198257819,
+        "Width": 185.0,
+        "Height": 319.0,
+        "FontSize": 36.0,
+        "InitialTop": -81.311301982578186,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 216.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "bd5de3f448d14273a388fffc30aec605",
+        "Title": "Executing actions, manipulating the Revit model",
+        "Nodes": [
+          "a6b254d622c74319890db205f5e20f82"
+        ],
+        "Left": 633.59100730501928,
+        "Top": -303.72463371836659,
+        "Width": 219.48333333333335,
+        "Height": 319.0,
+        "FontSize": 36.0,
+        "InitialTop": -77.72463371836659,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 216.0,
+        "Background": "#FFFF7BAC"
+      },
+      {
+        "Id": "08d4d9354d7c4698b1d3f20f35f25505",
+        "Title": "Select Unit System",
+        "Nodes": [
+          "c0b6fcec84d04307ad0c21bdca694e09"
+        ],
+        "Left": 1637.77848167702,
+        "Top": 770.90419411801247,
+        "Width": 202.0,
+        "Height": 164.0,
+        "FontSize": 36.0,
+        "InitialTop": 866.90419411801247,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 86.0,
+        "Background": "#FF48B9FF"
+      },
+      {
+        "Id": "d3060c7e2b754a60ba8263c45c0efe1d",
+        "Title": "Select Pipe Material",
+        "Nodes": [
+          "948d868cd24e467e9402a59e79c860d4"
+        ],
+        "Left": 1627.0550554415286,
+        "Top": 1096.827441639258,
+        "Width": 171.0,
+        "Height": 208.0,
+        "FontSize": 36.0,
+        "InitialTop": 1236.827441639258,
+        "InitialHeight": 145.0,
+        "TextblockHeight": 130.0,
+        "Background": "#FF48B9FF"
+      },
+      {
+        "Id": "e7b6fe5b09d24e69a2d9677356a24d06",
+        "Title": "This is the total system volume in US gallons. Please double check that you've set the units correctly in the blue boxes below!",
+        "Nodes": [],
+        "Left": 2788.9037647201408,
+        "Top": 422.93319085949281,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "5c6d68395c7a47adb0c74c4d5f1a2f1c",
+        "Title": "Colour Legend",
+        "Nodes": [],
+        "Left": 487.9306825988308,
+        "Top": 21.566286028823072,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "c8785c1d417e4ed4998050d195a0f603",
+        "Title": "Press F9 in Revit to open the System Browser. Use this to determine which filter you want to use (Domestic Cold Water, Hydronic, Hydronic Supply, etc.)",
+        "Nodes": [],
+        "Left": 191.01973732256158,
+        "Top": 658.72209759323664,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "321d6d4026a64a25957b54b32b27cbd5",
+        "Title": "The Watch node will display all of the systems to be sized by the program. ",
+        "Nodes": [],
+        "Left": 874.13981166890449,
+        "Top": 1115.2222104442662,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "62bd6f99b5df47ecaceca77d70e00ceb",
+        "Title": "TRUE if imperial, FALSE if metric",
+        "Nodes": [],
+        "Left": 1634.0522817809813,
+        "Top": 945.1347955076792,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "27b871a0c3f74023aaa0e4000022fae8",
+        "Title": "Note that this assumes that the model units are inches (if imperial), or mm (if metric).",
+        "Nodes": [],
+        "Left": 1631.7334400761426,
+        "Top": 985.90933331633209,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      },
+      {
+        "Id": "f2f3ac2d4c6241a083f18bbc8b7d333d",
+        "Title": "TRUE if Schedule 40 stainless steel, FALSE if Type L copper",
+        "Nodes": [],
+        "Left": 1630.8567317025365,
+        "Top": 1309.536630115226,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      }
+    ],
+    "X": 146.12723631021413,
+    "Y": 9.931472000926874,
+    "Zoom": 0.61054101580015419
+  }
+}
