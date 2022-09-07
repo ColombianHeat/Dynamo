@@ -9,6 +9,8 @@ Genius Loci...........................Version 2022.6.16
 MEPover...............................Version 2022.1.1
 Rhythm................................Version 2022.7.2
 
+All tested on Revit 2022
+
 The GenerativeDesign packages should also be in your packages list. They come pre-packaged with Dynamo, so that's nothing to worry about. 
 
 AGV
